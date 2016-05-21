@@ -21,7 +21,6 @@ public class Restaurant_detail extends AppCompatActivity {
         //int a = extras.getInt("positionList", 0);
 
         //-- List Logic --//
-        
 
     }
 }
