@@ -3,10 +3,10 @@ package com.example.farza.gainzs;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.*;
+
+import com.example.farza.gainzs.Models.UserModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
                     error.setText("YOU FOOL! ENTER SOMETHING");
                     return;
                 } else {
+                    UserModel newUser = new UserModel();
+
+                    newUser.getPriceInput(Double.parseDouble(inputString));
                     error.setText("");
                 }
 
