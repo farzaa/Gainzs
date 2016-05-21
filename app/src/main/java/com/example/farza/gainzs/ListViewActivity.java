@@ -8,6 +8,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import restraunt.RestrauntViewActivity;
+
 public class ListViewActivity extends AppCompatActivity {
 
     Restaurant restaurants[] = new Restaurant[]
@@ -41,6 +43,8 @@ public class ListViewActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                RestrauntViewActivity resNew = new RestrauntViewActivity();
+                resNew.launch();
                 int pos = parent.getPositionForView(view);
                 Toast.makeText(getBaseContext(), "You've tapped element " + pos, Toast.LENGTH_SHORT ).show();
                 Intent screenAfterList = new Intent(ListViewActivity.this, Restaurant_detail.class);
