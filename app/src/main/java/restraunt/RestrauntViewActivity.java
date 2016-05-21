@@ -45,29 +45,19 @@ public class RestrauntViewActivity extends AppCompatActivity {
     JSONObject reader;
     Restaurant restraunt;
 
+    public boolean isConnected(){
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected())
+            return true;
+        else
+            return false;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.restaurant_list);
-    }
-
-    public void launch()
-    {
-
-        tvIsConnected = (TextView) findViewById(R.id.tvIsConnected);
-        etResponse = (EditText) findViewById(R.id.etResponse);
-        restraunt = new Restaurant();
-
-        if(isConnected())
-        {
-            tvIsConnected.setBackgroundColor(0xFF00CC00);
-            tvIsConnected.setText("You are connected");
-        }
-
-        else
-        {
-            tvIsConnected.setText("You are NOT conncted");
-        }
+        setContentView(R.layout.activity_restaurant_detail);
 
         //Hardcoded API calls because of time constraint. If this gets fucked it can take a bit to fix.
 
@@ -80,7 +70,6 @@ public class RestrauntViewActivity extends AppCompatActivity {
         new HttpAsyncTask().execute("https://api.nutritionix.com/v1_1/search/?brand_id=513fbc1283aa2dc80c000053&results=0%3A1&cal_min=0&cal_max=50000&fields=item_name%2Cbrand_name%2Citem_id%2Cbrand_id&appId=29623ac6&appKey=6164e57c2dab5743928cccd76e88fe2e");
         new HttpAsyncTask().execute("https://api.nutritionix.com/v1_1/search/Panera%20Bread?results=0%3A1&cal_min=0&cal_max=50000&fields=item_name%2Cbrand_name%2Citem_id%2Cbrand_id&appId=29623ac6&appKey=6164e57c2dab5743928cccd76e88fe2e");
     }
-
     public static String GET(String url)
     {
         InputStream inputStream = null;
@@ -119,14 +108,6 @@ public class RestrauntViewActivity extends AppCompatActivity {
         Log.d("tag", "Go back to view");
     }
 
-    public boolean isConnected(){
-        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected())
-            return true;
-        else
-            return false;
-    }
 
     private static String convertInputStreamToString(InputStream inputStream) throws IOException
     {
