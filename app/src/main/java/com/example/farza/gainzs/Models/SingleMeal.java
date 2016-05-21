@@ -7,10 +7,10 @@ package com.example.farza.gainzs.Models;
 //Did not create getters/setters due to time constraint
 public class SingleMeal {
 
-    int calories;
-    int fat;
-    int protein;
-    int sugar;
+    public double calories;
+    public double fat;
+    public double protein;
+    public double sugar;
 
     public SingleMeal() {}
 

@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.farza.gainzs.MainActivity;
 import com.example.farza.gainzs.R;
+import com.example.farza.gainzs.Restaurant;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -43,6 +44,7 @@ public class RestrauntViewActivity extends AppCompatActivity {
     EditText etResponse;
     TextView tvIsConnected;
     JSONObject reader;
+    Restaurant restraunt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -52,7 +54,7 @@ public class RestrauntViewActivity extends AppCompatActivity {
 
         tvIsConnected = (TextView) findViewById(R.id.tvIsConnected);
         etResponse = (EditText) findViewById(R.id.etResponse);
-
+        restraunt = new Restaurant();
 
         if(isConnected())
         {
@@ -68,8 +70,12 @@ public class RestrauntViewActivity extends AppCompatActivity {
         //Hardcoded API calls because of time constraint. If this gets fucked it can take a bit to fix.
 
         //Call McDonalds
-        new HttpAsyncTask().execute("https://api.nutritionix.com/v1_1/search/?brand_id=513fbc1283aa2dc80c000053&results=0%3A20&cal_min=0&cal_max=50000&fields=item_name%2Cbrand_name%2Citem_id%2Cbrand_id&appId=29623ac6&appKey=6164e57c2dab5743928cccd76e88fe2e");
 
+        //McDonalds Brand ID: 513fbc1283aa2dc80c000053
+        //new HttpAsyncTask().execute("https://api.nutritionix.com/v1_1/item?id=23cb59492691b7e43efa59ac&appId=29623ac6&appKey=6164e57c2dab5743928cccd76e88fe2e");
+
+        //Grab specificed food items for McDonalds
+        new HttpAsyncTask().execute("https://api.nutritionix.com/v1_1/search/?brand_id=513fbc1283aa2dc80c000053&results=0%3A1&cal_min=0&cal_max=50000&fields=item_name%2Cbrand_name%2Citem_id%2Cbrand_id&appId=29623ac6&appKey=6164e57c2dab5743928cccd76e88fe2e");
     }
 
     public static String GET(String url)
@@ -146,20 +152,38 @@ public class RestrauntViewActivity extends AppCompatActivity {
         }
     }
 
+    private class HttpAsyncTask2 extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... urls) {
+            return GET(urls[0]);
+        }
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(String result) {
+            Toast.makeText(getBaseContext(), "Received!", Toast.LENGTH_LONG).show();
+            etResponse.setText(result);
+            parseJson2(result);
+        }
+    }
+
     public void parseJson(String json) {
         try {
+
+            //Grab JSON
             JSONObject object = new JSONObject(json);
-            //etResponse.setText(json);
-            //JSONObject mainObject = new JSONObject(json).getJSONObject("nf_calories");
-            //JSONObject object2 = object.getJSONObject("nf_calories");
 
-            //JSONObject json1= (JSONObject) new JSONTokener(json).nextValue();
+            JSONArray hits = object.getJSONArray("hits");
 
-            JSONArray objectArr = object.getJSONArray("hits");
-            JSONObject object2 =  new JSONObject(objectArr.getString(0));
-            Log.d("JSON", object2.toString());
-            
-            Log.d("JSON",            String.valueOf(object2.getInt("nf_calories")));
+            for(int i = 0; i < hits.length(); i++)
+            {
+                JSONObject fullMeal = hits.getJSONObject(i);
+                Log.d("JSON", fullMeal.toString());
+
+                String str = fullMeal.getString("_id");
+                Log.d("ID", str);
+                new HttpAsyncTask2().execute("https://api.nutritionix.com/v1_1/item?id=" + str + "&appId=29623ac6&appKey=6164e57c2dab5743928cccd76e88fe2e");
+            }
+
 
         } catch (Exception e) {
             Log.e("Exception", e.toString());
@@ -167,4 +191,32 @@ public class RestrauntViewActivity extends AppCompatActivity {
         }
 
     }
+
+
+    public void parseJson2(String json) {
+        try {
+
+            JSONObject object = new JSONObject(json);
+            Log.d("JSON", object.toString());
+            Log.d("JSON", object.getString("item_id"));
+
+            double calories = Double.parseDouble(object.getString("nf_calories").toString());
+            double fat = Double.parseDouble(object.getString("nf_protein").toString());
+            double sugar = Double.parseDouble(object.getString("nf_sugars").toString());
+            double protein = Double.parseDouble(object.getString("nf_protein").toString());
+
+            //Once we have the info, add it as a new meal.
+            restraunt.addNewMeal(calories, sugar, protein, fat);
+
+            Log.d("JSON", "HERE");
+
+
+        } catch (Exception e) {
+            Log.e("Exception", e.toString());
+            Log.d("JSON", "RIP");
+        }
+
+
+    }
+
 }
