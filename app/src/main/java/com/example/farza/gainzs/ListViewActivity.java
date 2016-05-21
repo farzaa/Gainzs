@@ -50,7 +50,7 @@ public class ListViewActivity extends AppCompatActivity {
 
                 int pos = parent.getPositionForView(view);
                 Toast.makeText(getBaseContext(), "You've tapped element " + pos, Toast.LENGTH_SHORT ).show();
-                Intent screenAfterList = new Intent(ListViewActivity.this, MainActivity.class);
+                Intent screenAfterList = new Intent(ListViewActivity.this, Restaurant_detail.class);
                 screenAfterList.putExtra("positionList", pos);
                 //ListEntry listEntry = new Li
                 startActivity(screenAfterList);
