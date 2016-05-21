@@ -14,11 +14,13 @@ public class Restaurant_detail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         Intent i = getIntent();
-        int a = i.getIntExtra("positionList",1);
-        Toast.makeText(getBaseContext()," " + a ,Toast.LENGTH_SHORT).show();
+        int position = i.getIntExtra("positionList",1);
+//        Toast.makeText(getBaseContext()," " + position ,Toast.LENGTH_SHORT).show();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_detail);
         //int a = extras.getInt("positionList", 0);
+
+        //-- List Logic --//
 
     }
 }

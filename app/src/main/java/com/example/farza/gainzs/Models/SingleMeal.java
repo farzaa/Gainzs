@@ -1,5 +1,7 @@
 package com.example.farza.gainzs.Models;
 
+import com.example.farza.gainzs.Restaurant;
+
 /**
  * Created by Farza on 5/21/16.
  */
@@ -12,6 +14,8 @@ public class SingleMeal {
     public double protein;
     public double sugar;
 
-    public SingleMeal() {}
+    public SingleMeal() {
+
+    }
 
 }
