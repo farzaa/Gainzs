@@ -7,9 +7,9 @@ package com.example.farza.gainzs.Models;
 import android.util.Log;
 
 public class UserModel {
-    private double userPriceInput;
+    private Long userPriceInput;
 
-    public void setPriceInput(double userInput) {
+    public void setPriceInput(Long userInput) {
         userPriceInput = userInput;
 
         Log.d("userInput", String.valueOf(userPriceInput));
