@@ -129,7 +129,7 @@ public class RestrauntViewActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             Toast.makeText(getBaseContext(), "Received!", Toast.LENGTH_LONG).show();
-            etResponse.setText("WOW");
+            etResponse.setText(result);
         }
     }
 
