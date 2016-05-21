@@ -21,10 +21,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
@@ -38,6 +42,8 @@ public class RestrauntViewActivity extends AppCompatActivity {
 
     EditText etResponse;
     TextView tvIsConnected;
+    JSONObject reader;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -59,15 +65,22 @@ public class RestrauntViewActivity extends AppCompatActivity {
             tvIsConnected.setText("You are NOT conncted");
         }
 
-        new HttpAsyncTask().execute("http://hmkcode.appspot.com/rest/controller/get.json");
+        //Hardcoded API calls because of time constraint. If this gets fucked it can take a bit to fix.
+
+        //Call McDonalds
+        new HttpAsyncTask().execute("https://api.nutritionix.com/v1_1/search/?brand_id=513fbc1283aa2dc80c000053&results=0%3A20&cal_min=0&cal_max=50000&fields=item_name%2Cbrand_name%2Citem_id%2Cbrand_id&appId=29623ac6&appKey=6164e57c2dab5743928cccd76e88fe2e");
 
     }
 
     public static String GET(String url)
     {
         InputStream inputStream = null;
+        InputStream inputStream2 = null;
         String result = "";
+        String reult2 = null;
         try {
+
+            // create HttpClient
 
             // create HttpClient
             HttpClient httpclient = new DefaultHttpClient();
@@ -77,7 +90,6 @@ public class RestrauntViewActivity extends AppCompatActivity {
 
             // receive response as inputStream
             inputStream = httpResponse.getEntity().getContent();
-
             // convert inputstream to string
             if(inputStream != null)
                 result = convertInputStreamToString(inputStream);
@@ -130,52 +142,29 @@ public class RestrauntViewActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             Toast.makeText(getBaseContext(), "Received!", Toast.LENGTH_LONG).show();
             etResponse.setText(result);
+            parseJson(result);
         }
     }
 
-//    //Method to actually go and GET data via a URL.
-//    private String downloadUrl(String myurl) throws IOException {
-//        InputStream is = null;
-//        int len = 10;
-//
-//        try
-//        {
-//            URL url = new URL(myurl);
-//            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-//            conn.setReadTimeout(10000 /* milliseconds */);
-//            conn.setConnectTimeout(15000 /* milliseconds */);
-//            conn.setRequestMethod("GET");
-//            conn.setDoInput(true);
-//
-//            // Starts the query
-//            conn.connect();
-//            int response = conn.getResponseCode();
-//            Log.d("Network Tag", "The response is: " + response);
-//            is = conn.getInputStream();
-//
-//            // Convert the InputStream into a string
-//            //String contentAsString = readIt(is, len);
-//            //return contentAsString;
-//
-//            Log.d("Oh god", is.toString());
-//
-//            // Makes sure that the InputStream is closed after the app is
-//            // finished using it.
-//
-//            if (is != null)
-//            {
-//                is.close();
-//            }
-//        }
-//
-//        catch(Exception e)
-//        {
-//            Log.e("Exception", e.toString());
-//        }
-//
-//        return is.toString();
-//    }
+    public void parseJson(String json) {
+        try {
+            JSONObject object = new JSONObject(json);
+            //etResponse.setText(json);
+            //JSONObject mainObject = new JSONObject(json).getJSONObject("nf_calories");
+            //JSONObject object2 = object.getJSONObject("nf_calories");
 
+            //JSONObject json1= (JSONObject) new JSONTokener(json).nextValue();
 
+            JSONArray objectArr = object.getJSONArray("hits");
+            JSONObject object2 =  new JSONObject(objectArr.getString(0));
+            Log.d("JSON", object2.toString());
+            
+            Log.d("JSON",            String.valueOf(object2.getInt("nf_calories")));
 
+        } catch (Exception e) {
+            Log.e("Exception", e.toString());
+            Log.d("JSON", "RIP");
+        }
+
+    }
 }
