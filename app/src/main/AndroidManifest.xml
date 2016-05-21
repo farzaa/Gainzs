@@ -14,8 +14,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ListViewActivity" />
-        <activity android:name=".RestrauntViewActivity"></activity>
+
+        <activity
+            android:name=".ListViewActivity" />
+        <activity
+            android:name="restraunt.RestrauntViewActivity"
+            android:label="@string/restraunt_results" >
+
+        </activity>
     </application>
 
 </manifest>
