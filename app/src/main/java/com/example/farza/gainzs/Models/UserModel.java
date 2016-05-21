@@ -9,7 +9,7 @@ import android.util.Log;
 public class UserModel {
     private double userPriceInput;
 
-    public void getPriceInput(double userInput) {
+    public void setPriceInput(double userInput) {
         userPriceInput = userInput;
 
         Log.d("userInput", String.valueOf(userPriceInput));

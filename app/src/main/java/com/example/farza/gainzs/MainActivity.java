@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     UserModel newUser = new UserModel();
 
-                    newUser.getPriceInput(Double.parseDouble(inputString));
+                    newUser.setPriceInput(Double.parseDouble(inputString));
                     error.setText("");
                 }
 
