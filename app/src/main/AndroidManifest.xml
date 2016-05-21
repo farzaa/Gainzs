@@ -1,0 +1,48 @@
+Skip to content
+    This repository
+    Search
+    Pull requests
+    Issues
+    Gist
+    @adilanchian
+    Unwatch 3
+    Star 0
+    Fork 0 farzaa/Gainzs
+    Code  Issues 0  Pull requests 0  Wiki  Pulse  Graphs
+    Branch: master Find file Copy path
+    Gainzs/app/src/main/AndroidManifest.xml
+    a4a806f  16 minutes ago
+    @farzaa farzaa Fixed merge conflicts
+    2 contributors @farzaa @adilanchian
+    RawBlameHistory     32 lines (25 sloc)  970 Bytes
+    <?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.farza.gainzs">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <activity android:name=".SplashScreen" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+    </application>
+
+    <activity
+        android:name="restraunt.RestrauntViewActivity"
+        android:label="@string/restraunt_results" >
+    </activity>
+
+    <activity android:name=".MainActivity"/>
+    <activity android:name=".ListViewActivity" />
+    <activity android:name=".RestrauntViewActivity">
+    </activity>
+
+</manifest>
