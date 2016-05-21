@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -35,6 +36,7 @@ import java.net.URL;
 
 public class RestrauntViewActivity extends AppCompatActivity {
 
+    EditText etResponse;
     TextView tvIsConnected;
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -43,6 +45,7 @@ public class RestrauntViewActivity extends AppCompatActivity {
         setContentView(R.layout.restaurant_list);
 
         tvIsConnected = (TextView) findViewById(R.id.tvIsConnected);
+        etResponse = (EditText) findViewById(R.id.etResponse);
 
 
         if(isConnected())
@@ -55,6 +58,8 @@ public class RestrauntViewActivity extends AppCompatActivity {
         {
             tvIsConnected.setText("You are NOT conncted");
         }
+
+        new HttpAsyncTask().execute("http://hmkcode.appspot.com/rest/controller/get.json");
 
     }
 
@@ -102,7 +107,8 @@ public class RestrauntViewActivity extends AppCompatActivity {
             return false;
     }
 
-    private static String convertInputStreamToString(InputStream inputStream) throws IOException{
+    private static String convertInputStreamToString(InputStream inputStream) throws IOException
+    {
         BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
         String line = "";
         String result = "";
@@ -114,67 +120,61 @@ public class RestrauntViewActivity extends AppCompatActivity {
 
     }
 
-    private class DownloadWebpageTask extends AsyncTask<String, Void, String> {
+    private class HttpAsyncTask extends AsyncTask<String, Void, String> {
         @Override
-        protected String doInBackground(String[] urls) {
-
-            // params comes from the execute() call: params[0] is the url.
-            try {
-                return downloadUrl(urls[0]);
-            } catch (IOException e) {
-                return "Unable to retrieve web page. URL may be invalid.";
-            }
+        protected String doInBackground(String... urls) {
+            return GET(urls[0]);
         }
-//        // onPostExecute displays the results of the AsyncTask.
-//        @Override
-//        protected void onPostExecute(String result) {
-//            textView.setText(result);
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(String result) {
+            Toast.makeText(getBaseContext(), "Received!", Toast.LENGTH_LONG).show();
+            etResponse.setText("WOW");
+        }
+    }
+
+//    //Method to actually go and GET data via a URL.
+//    private String downloadUrl(String myurl) throws IOException {
+//        InputStream is = null;
+//        int len = 10;
+//
+//        try
+//        {
+//            URL url = new URL(myurl);
+//            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//            conn.setReadTimeout(10000 /* milliseconds */);
+//            conn.setConnectTimeout(15000 /* milliseconds */);
+//            conn.setRequestMethod("GET");
+//            conn.setDoInput(true);
+//
+//            // Starts the query
+//            conn.connect();
+//            int response = conn.getResponseCode();
+//            Log.d("Network Tag", "The response is: " + response);
+//            is = conn.getInputStream();
+//
+//            // Convert the InputStream into a string
+//            //String contentAsString = readIt(is, len);
+//            //return contentAsString;
+//
+//            Log.d("Oh god", is.toString());
+//
+//            // Makes sure that the InputStream is closed after the app is
+//            // finished using it.
+//
+//            if (is != null)
+//            {
+//                is.close();
+//            }
 //        }
-
-    }
-
-    //Method to actually go and GET data via a URL.
-    private String downloadUrl(String myurl) throws IOException {
-        InputStream is = null;
-        int len = 10;
-
-        try
-        {
-            URL url = new URL(myurl);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(10000 /* milliseconds */);
-            conn.setConnectTimeout(15000 /* milliseconds */);
-            conn.setRequestMethod("GET");
-            conn.setDoInput(true);
-
-            // Starts the query
-            conn.connect();
-            int response = conn.getResponseCode();
-            Log.d("Network Tag", "The response is: " + response);
-            is = conn.getInputStream();
-
-            // Convert the InputStream into a string
-            //String contentAsString = readIt(is, len);
-            //return contentAsString;
-
-            Log.d("Oh god", is.toString());
-
-            // Makes sure that the InputStream is closed after the app is
-            // finished using it.
-
-            if (is != null)
-            {
-                is.close();
-            }
-        }
-
-        catch(Exception e)
-        {
-            Log.e("Exception", e.toString());
-        }
-
-        return is.toString();
-    }
+//
+//        catch(Exception e)
+//        {
+//            Log.e("Exception", e.toString());
+//        }
+//
+//        return is.toString();
+//    }
 
 
 

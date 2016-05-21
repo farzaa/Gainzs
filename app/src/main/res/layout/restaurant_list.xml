@@ -30,4 +30,14 @@
         android:layout_centerHorizontal="true"
         android:onClick="finalButtonClicked"/>
 
+
+    <EditText
+        android:id="@+id/etResponse"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:ems="10"
+        android:layout_marginTop="10dp"
+        android:inputType="textMultiLine" />
+
+
 </RelativeLayout>
