@@ -40,17 +40,19 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class RestrauntViewActivity extends AppCompatActivity {
-
     EditText etResponse;
     TextView tvIsConnected;
     JSONObject reader;
     Restaurant restraunt;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.restaurant_list);
+    }
+
+    public void launch()
+    {
 
         tvIsConnected = (TextView) findViewById(R.id.tvIsConnected);
         etResponse = (EditText) findViewById(R.id.etResponse);
@@ -76,6 +78,7 @@ public class RestrauntViewActivity extends AppCompatActivity {
 
         //Grab specificed food items for McDonalds
         new HttpAsyncTask().execute("https://api.nutritionix.com/v1_1/search/?brand_id=513fbc1283aa2dc80c000053&results=0%3A1&cal_min=0&cal_max=50000&fields=item_name%2Cbrand_name%2Citem_id%2Cbrand_id&appId=29623ac6&appKey=6164e57c2dab5743928cccd76e88fe2e");
+        new HttpAsyncTask().execute("https://api.nutritionix.com/v1_1/search/Panera%20Bread?results=0%3A1&cal_min=0&cal_max=50000&fields=item_name%2Cbrand_name%2Citem_id%2Cbrand_id&appId=29623ac6&appKey=6164e57c2dab5743928cccd76e88fe2e");
     }
 
     public static String GET(String url)

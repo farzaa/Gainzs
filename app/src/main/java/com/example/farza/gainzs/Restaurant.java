@@ -36,9 +36,9 @@ public class Restaurant {
         mealList.add(meal);
 
 
-        Log.d("myTag", Double.toString(mealList.get(0).calories));
-        Log.d("myTag", Double.toString(mealList.get(0).sugar));
-        Log.d("myTag", Double.toString(mealList.get(0).protein));
-        Log.d("myTag", Double.toString(mealList.get(0).fat));
+        Log.d("myTag", Double.toString(mealList.get(1).calories));
+        Log.d("myTag", Double.toString(mealList.get(1).sugar));
+        Log.d("myTag", Double.toString(mealList.get(1).protein));
+        Log.d("myTag", Double.toString(mealList.get(1).fat));
     }
 }
